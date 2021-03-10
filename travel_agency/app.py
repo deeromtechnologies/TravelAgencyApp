@@ -7,7 +7,11 @@ import pdb
 from datetime import  date
 
 from flask_wtf import FlaskForm
+from wtforms import Form, BooleanField, StringField, PasswordField, validators
+
+from wtforms.validators import DataRequired
 from wtforms import StringField
+from wtforms import IntegerField
 
 
 app = Flask(__name__)
@@ -25,9 +29,13 @@ db = SQLAlchemy(app)
 
 
 class MyForm(FlaskForm):
-    name = StringField('name', validators=[DataRequired()])
+    username = StringField('username', validators=[DataRequired()])
+    userid = IntegerField('userid', validators=[DataRequired()])
+    password = PasswordField('password', validators=[DataRequired()])
 
+    email = StringField('Email Address', [validators.Length(min=6, max=35)])
 
+    number = IntegerField('Number', validators=[DataRequired()])
 
 
 class register(db.Model):
@@ -97,7 +105,7 @@ class booking(db.Model):
 
 
 
-#
+
 
 
 
@@ -210,23 +218,23 @@ def logout():
 
 @app.route('/signup',methods=["POST","GET"])
 def signup():
-
+	
+	form = MyForm()
+	
 	if request.method == "POST":
-	
-		signup=register(
-		userid=request.form["userid"],
-		username=request.form["username"],
-		password=request.form["Password"],
-		email=request.form["email"],
-		number=request.form["number"])
-		print(signup.username)
+		if form.validate_on_submit(): 
+			
+			
+			signup=register(userid=form.userid.data,username=form.username.data,password=form.password.data,email=form.email.data,number=form.number.data)
+			print(signup.username)
 
-		db.session.add(signup)
-		db.session.commit()
-		
-		return redirect(url_for('login'))
+			db.session.add(signup)
+			db.session.commit()
+			
+			return redirect(url_for('login'))
 	
-	return render_template('signup.html')
+	return render_template('signup.html',form=form)
+
 
 
 @app.route('/users')

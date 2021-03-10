@@ -29,6 +29,20 @@ body
         border-radius: 15px ;  
           
 }  
+#login input{
+  width: 300px;  
+    height: 30px;  
+    border: none;  
+    border-radius: 17px;  
+    padding-left: 7px;  
+    color: blue;  
+
+}
+#login label{
+  padding-left: 50px;
+  padding-top: 10px;
+}
+  
 h2{  
     text-align: center;  
     color: red;  
@@ -82,6 +96,9 @@ span{
     min-height: 850px;
 
 }
+#check input{
+  padding-right: 50px;
+}
 </style>
 
 </head>
@@ -121,39 +138,27 @@ span{
 <div class="img">
 <h2>Sign up</h2><br>    
     <div class="login">    
-    <form id="login" method="POST" action="/signup">    
-        <label><b>User Name     
-        </b>    
-        </label>    
-        <input type="text" name="username" id="Uname" placeholder="username" required="">    
-        <br><br>    
-        <label><b>user id    
-        </b>    
-         </label>    
-        <input type="text" name="userid" id="Uname" placeholder="user id" required="">    
-        <br><br>    
-        <label><b>Password     
-        </b>    
-        </label>    
-        <input type="Password" name="Password" id="Uname" placeholder="Password">    
-        <br><br>  
-        <label><b>email     
-        </b>    
-        </label>    
-        <input type="text" name="email" id="Uname" placeholder="email">    
-        <br><br>      
-        <label><b>mobile    
-        </b>    
-        </label>    
-        <input type="Password" name="number" id="Uname" placeholder="number">    
-        <br><br>    
-         <button class="log"> 
-       submit </button>
+    <form id="login" method="POST" action="/signup"> 
+      {{form.csrf_token}}   
+
+        <label for="username">{{form.username.label}}</label> <br>
+        {{form.username()}}<br>
+         
+         <label for="userid">{{form.userid.label}}</label> <br>
+        {{form.userid()}}<br>
+
+         <label for="password">{{form.password.label}}</label> <br>
+        {{form.password()}}<br>
+
+         <label for="email">{{form.email.label}}</label> <br>
+        {{form.email()}}<br>
+
+         <label for="number">{{form.number.label}}</label> <br>
+        {{form.number()}}<br><br>
+
+         <button class="log">submit </button>
               
         <br><br>    
-        <input type="checkbox" id="check">    
-        <span>Remember me</span>  
-         
         
     </form>     
 </div>    
