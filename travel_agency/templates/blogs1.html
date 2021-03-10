@@ -9,6 +9,7 @@
 <table border='2'>
   <tr>
     <th>id</th>
+    <th>userid</th>
     <th>date</th>
     <th>name</th>
     <th>title</th>
@@ -17,9 +18,11 @@
   </tr>
 {% for users in user %}
 <tr>
+
 <td>{{users.id}}</td>
+<td>{{users.userid}}</td>
 <td>{{users.date}}</td>
-<td>{{users.name}}</td>
+<td>{{users.username}}</td>
 <td>{{users.title}}</td>
 <td>{{users.image}}</td>
 <td>{{users.text}}</td>

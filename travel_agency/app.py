@@ -6,6 +6,10 @@ from sqlalchemy import insert
 import pdb
 from datetime import  date
 
+from flask_wtf import FlaskForm
+from wtforms import StringField
+
+
 app = Flask(__name__)
 
 app.secret_key="lkjh0987"
@@ -17,6 +21,14 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SQLALCHEMY_DATABASE_URI"] = ("sqlite:///travel.db")
 
 db = SQLAlchemy(app)
+
+
+
+class MyForm(FlaskForm):
+    name = StringField('name', validators=[DataRequired()])
+
+
+
 
 class register(db.Model):
 
@@ -41,14 +53,16 @@ class blogs(db.Model):
 
 	id= db.Column(db.Integer, primary_key=True)
 	userid = db.Column(db.String(20),db.ForeignKey('register'))
+	username= db.Column(db.String(30),  nullable=False)
 	image= db.Column(db.String(30),  nullable=False)
 	date= db.Column(db.DateTime, nullable=False )
 	title=db.Column(db.String(20))
 	text=db.Column(db.Text(100),  nullable=False)
 	
-	def __init__(self,name , image,date,title,text):
+	def __init__(self,username , image,date,title,text,userid):
 		
-		self.name = name
+		self.userid=userid
+		self.username = username
 		self.image = image
 		self.date= date
 		self.title = title
@@ -83,6 +97,10 @@ class booking(db.Model):
 
 
 
+#
+
+
+
 @app.route('/')
 def home():
 	return render_template('home.html')
@@ -102,16 +120,10 @@ def blog():
 
 @app.route('/addblog/<user>',methods=["POST", "GET"])
 def addblog(user):
-	pdb.set_trace()
+	
 	if request.method == "POST":
-		name=request.form["name"]
-		image=request.form["img"]
-		#date=request.form["date"]
-		title=request.form["title"]
-		text=request.form["text"]
-		print(request.form)
 		
-		addblogs = blogs (name=request.form["name"],image=request.form["img"],date=date,title=request.form["title"],text=request.form["text"])
+		addblogs = blogs (userid=request.form["userid1"],username=request.form["name"],image=request.form["img"],date=date,title=request.form["title"],text=request.form["text"])
 		
 		print(request.form)
 
@@ -121,11 +133,12 @@ def addblog(user):
 
 		userid1=request.form["userid1"]
 
-		return redirect(url_for("blogs1"))
+		return redirect(url_for("blogs1",result=userid1))
+	
 
-	result=register.query.filter_by(userid=user).first()
+	result1=register.query.filter_by(userid=user).first()
 
-	return render_template("addblog.html",result=result)
+	return render_template("addblog.html",result=result1)
 	
 
 #@app.route('/addblog1',methods=["POST", "GET"])
@@ -211,7 +224,7 @@ def signup():
 		db.session.add(signup)
 		db.session.commit()
 		
-		return redirect(url_for('home'))
+		return redirect(url_for('login'))
 	
 	return render_template('signup.html')
 
