@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>travel agency</title>
+
+ <link rel="stylesheet" type="text/css"  href="{{url_for('static', filename='main.css')}}">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+ 
+  <link rel="stylesheet"  href="{{url_for('static', filename='main.js')}}">
+       <script src = "https://maps.googleapis.com/maps/api/js"></script>
+<style type="text/css">
+  .navbar{
+background-image: url("static/new4.jpeg");
+ 
+  background-repeat: no-repeat;
+  background-size: cover;
+  
+  }
+  #nab a{
+    font-size: 22px;
+    font-style: italic;
+    font-weight: bold;
+   padding: 15px 18px;
+    color:black;
+
+  }
+  .navbar-nav a:hover {
+  background-color:red;
+  
+  
+}
+.container-fluid h1,h2 {
+  color:black;
+  font-weight: bold;
+  }
+  
+  .container-fluid {
+  
+  background-image: url("static/new4.jpeg");
+
+  min-height: 800px;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  
+  /* Needed to position the navbar */
+  position: relative;
+  padding-top:  300px;
+  padding-left: 1200px;
+   font-style: italic;
+}
+.video{
+  background-image: url("static/travel2.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding-left: 500px;
+  
+  /* Needed to position the navbar */
+  position: relative;
+
+}
+.search-container {
+  padding-left: 450px;
+  
+ 
+}
+</style>
+
+</head>
+
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark ">
+  <!-- Brand/logo -->
+  
+  <a class="navbar-brand" href="#">
+    <img src="static/org.png" alt="logo" style="width:150px;">
+  </a>
+  
+  <!-- Links -->
+  <ul class="navbar-nav " id="nab">
+    <li class="nav-item">
+      <a class="nav-link" href="#" >home </a>
+    </li>
+   <li class="nav-item">
+      <a class="nav-link" href="{{ url_for('about') }}">about us</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{{ url_for('blog') }}">blog</a>
+      
+        </li>
+      
+    
+    <li class="nav-item">
+      <a class="nav-link" href="{{ url_for('contact') }}">contact</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{{ url_for('gallery') }}">Gallery</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{{ url_for('page') }}">page </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{{ url_for('login') }}">login </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{{ url_for('booking') }}">booking form </a>
+    </li>
+  </ul>
+  <div class="search-container">
+    <form action="">
+      <input type="text" placeholder="Search.." name="search">
+      <button type="submit">Submit</button>
+    </form>
+  </div></nav>
+  <div class="container-fluid">
+  <div class="new-content">
+
+    <h1>Make memories....{{session['user']}}!</h1>
+    <h2>A new pulse of DREAM...</h2>
+     
+  </div>
+</div>
+  
+  
+
+
+
+
+
+ <div class="blog">
+
+ <div class="container">
+ <h1>POPULAR PLACES</h1>
+  <div class="row">
+   <div class="col-md-4 col-lg-4 col-sm-12">
+    <div class="card">
+     <div class="card-img">
+      <img src="static/australia.jpeg" class="img-fluid" width="500px" height="1000px">
+     </div>
+     
+     <div class="card-body">
+     <h4 class="card-title">Australia</h4>
+      
+      
+     </div>
+     
+    </div>
+   </div>
+   <div class="col-md-4 col-lg-4 col-sm-12">
+    <div class="card">
+     <div class="card-img">
+      <img src="static/bali.jpg" class="img-fluid">
+     </div>
+     
+     <div class="card-body">
+        <h4 class="card-title">Indonesia</h4>
+     
+     </div>
+     
+    </div>
+   </div>
+    <div class="col-md-4 col-lg-4 col-sm-12">
+    <div class="card">
+     <div class="card-img">
+      <img src="static/switzerland.jpg" class="img-fluid">
+     </div>
+     
+     <div class="card-body">
+        <h4 class="card-title">switzerland</h4>
+     
+     </div>
+     
+    </div>
+   </div>
+    <div class="col-md-4 col-lg-4 col-sm-12">
+    <div class="card">
+     <div class="card-img">
+      <img src="static/bali.jpg" class="img-fluid">
+     </div>
+     
+     <div class="card-body" padding-top="50px">
+        <h4 class="card-title">Bali</h4>
+     
+     </div>
+     
+    </div>
+   </div>
+   <div class="col-md-4 col-lg-4 col-sm-12">
+    <div class="card">
+     <div class="card-img">
+      <img src="static/maldives.jpg" class="img-fluid">
+     </div>
+     
+     <div class="card-body">
+     <h4 class="card-title">Maldives</h4>
+      
+     </div>
+     
+    </div>
+   </div>
+   <div class="col-md-4 col-lg-4 col-sm-12">
+    <div class="card">
+     <div class="card-img">
+      <img src="static/bhutan.jpg" class="img-fluid">
+     </div>
+     
+     <div class="card-body">
+     <h4 class="card-title">Bhutan</h4>
+      
+     </div>
+     
+    </div>
+   </div>
+  </div>
+ </div>
+</div>
+
+
+<div class="go">
+<div class="where_to_go">
+  <div class="container1">
+    <div class="row align-items-center">
+      <div class="col-lg-4" id="go">
+        <div class="form_area">
+          <h3>Where you want to go?</h3>
+        </div>
+      </div>
+      <div class="col-lg-8" id="go1">
+        <div class="search_wrap">
+          <form class="search_form" action="#">
+            <div class="input_field">
+              <input type="text" placeholder="Where to go?">
+            </div>
+<br>
+          <div class="input_field">
+            <input type="date" id="start" name="trip-start"
+                value="date"
+              min="2018-01-01" max="2021-12-31">
+          </div>
+<br>
+        <div class="input_field">
+          <select value="take action" name="select">
+          <option>travel type</option>>
+          <option value="0">Outbound </option>
+          <option value="1">Domestic </option>
+          <option value="2">Leisure</option>
+          <option value="3">Inbound </option>
+          
+          </option>
+        
+
+        </select>
+      </div>
+<br><br>
+      <div class="search_btn" color="white">
+       
+       <button ><a href="{{ url_for('login') }}">login</a></button>
+    
+      </div>
+</form>
+</div>
+</div>
+</div>
+</div>
+</div></div>
+      <div class="video">
+
+        <video width="1000" height="500" controls>
+  <source src="static/vid.mp4" type="video/mp4">
+  <source src="static/vid.ogg" type="video/ogg">
+
+</video>
+      </div>  
+  
+
+
+<div class="blog">
+
+ <div class="container">
+ <h1>Recent Trips</h1>
+  <div class="row">
+   <div class="col-md-4 col-lg-4 col-sm-12">
+    <div class="card">
+     <div class="card-img">
+      <img src="static/u1.jpeg" class="img-fluid" width="500px" height="1000px">
+     </div>
+     
+     <div class="card-body">
+     <h4 class="card-title">Australia</h4>
+      
+      
+     </div>
+     
+    </div>
+   </div>
+   <div class="col-md-4 col-lg-4 col-sm-12">
+    <div class="card">
+     <div class="card-img">
+      <img src="static/switzerland.jpg" class="img-fluid" >
+     </div>
+     
+     <div class="card-body">
+        <h4 class="card-title">Indonesia</h4>
+     
+     </div>
+     
+    </div>
+   </div>
+    <div class="col-md-4 col-lg-4 col-sm-12">
+    <div class="card">
+     <div class="card-img">
+      <img src="static/u1.jpeg" class="img-fluid" width="500px" height="1000px">
+     </div>
+     
+     <div class="card-body">
+        <h4 class="card-title">switzerland</h4>
+     
+     </div>
+     
+    </div>
+   </div></div></div></div>
+
+  
+  <div class="row" id=footer>
+    <div class="col-lg-4" id="footer1">
+  <img src="static/org.png" alt="logo" style="width:150px;">
+
+  <p>5th flora, 700/D kings road,
+  <p> green
+lane New York-1782
++10 367 826 2567</p>
+<p>contact@make_memories.com</p>
+  <a href="#" class="fa fa-facebook"></a>
+<a href="#" class="fa fa-twitter"></a>
+<a href="https://www.google.com/" class="fa fa-google"></a>
+<a href="#" class="fa fa-linkedin"></a>
+<a href="#" class="fa fa-youtube"></a>
+<a href="#" class="fa fa-instagram"></a>
+
+</div>
+<div class="col-lg-2" id="company">
+  
+    <h3>company</h3>
+<ul class="links">
+  <li>about</li>
+  <li>contact</li>
+  <li>blog</li>
+  <li>gallery</li>
+</ul>
+  
+</div>
+
+<div class="col-lg-2" id="company">
+  
+    <h3>popular places</h3>
+<ul class="links double_links">
+  <li>Indonesia</li>
+  <li>America</li>
+  <li>India</li>
+  <li>Switzerland</li>
+  <li>Italy</li>
+  <li>Canada</li>
+ <li> Franch</li>
+ <li>England</li>
+</ul>
+  
+</div>
+<div class="col-lg-4" id="map">
+
+ <div id = "sample" style = "width:580px; height:400px;"></div>
+ <script>
+         function loadMap() {
+      
+            var mapOptions = {
+               center:new google.maps.LatLng(11.8745, 75.3704), 
+               zoom:12, 
+               mapTypeId:google.maps.MapTypeId.ROADMAP
+            };
+        
+            var map = new google.maps.Map(document.getElementById("sample"),mapOptions);
+         }
+      
+         google.maps.event.addDomListener(window, 'load', loadMap);
+      </script>
+      
+
+      
+     
+</div>
+ </div>
+ <div class="text">
+  <div class="text2">
+
+<div class="footer-border"></div>
+<div class="row">
+  <div class="col-xl-12" id="text3">
+  <p>Copyright ©2021 All rights reserved  |  <strong >MAKE MEMORIES</strong></p>
+</div>
+</div>
+</div>
+</div>
+
+</body>
+</html>

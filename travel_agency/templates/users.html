@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>page not found</title>
+</head>
+<body>
+
+<form action="/users" method="POST">
+<table border='2'>
+  <tr>
+    <th>id</th>
+    <th>username</th>
+    <th>password</th>
+    <th>email</th>
+    <th>number</th>
+  </tr>
+{% for users in user %}
+<tr>
+<td>{{users.id}}</td>
+<td>{{users.username}}</td>
+<td>{{users.password}}</td>
+<td>{{users.email}}</td>
+<td>{{users.number}}</td>
+</tr>
+{% endfor %}
+
+
+</form>
+</body>
+
+</html>

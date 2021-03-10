@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css"  href="{{url_for('static', filename='main.css')}}">
+  <style type="text/css">
+  	.portfolio{
+ margin: 4em 0;
+ position: relative; 
+}
+.portfolio h1{
+ color:#F97300;
+ margin: 2em; 
+ text-align: center;
+}
+.portfolio img{
+  height: 15rem;
+  width: 100%;
+  margin: 1em;
+  border-radius:8px
+ 
+}
+  </style>
+</head>
+<body>
+	<nav class="navbar navbar-expand-sm bg-dark navbar-white ">
+  <!-- Brand/logo -->
+  <a class="navbar-brand" href="#">
+    <img src="static/org.png" alt="logo" style="width:150px;">
+  </a>
+  
+  <!-- Links -->
+  <ul class="navbar-nav ">
+    <li class="nav-item">
+      <a class="nav-link"  href="{{ url_for('home') }}">home </a>
+    </li>
+   <li class="nav-item">
+      <a class="nav-link" href="{{ url_for('about') }}">about us</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{{ url_for('blog') }}">blog</a>
+    
+      
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{{ url_for('contact') }}">contact</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{{ url_for('gallery') }}">Gallery</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{{ url_for('page') }}">page </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{{ url_for('login') }}">login </a>
+    </li>
+  </ul>
+  
+  </nav>
+  
+	<div class="portfolio">
+	<h1 class="center-text" >GALLERY</h1>
+	<div class="container">
+		<div class="row">
+<div class="col-lg-4">
+				<img src="static/australia.jpeg" class="img-fluid">
+			</div>
+<div class="col-lg-4">
+				<img src="static/bali.jpg" class="img-fluid">
+			</div>
+<div class="col-lg-4">
+				<img src="static/bhutan.jpg" class="img--fluid">
+			</div>
+
+<div class="col-lg-4">
+				<img src="static/travel2.jpg" class="img-fluid">
+			</div>
+<div class="col-lg-4">
+				<img src="static/u1.jpeg" class="img-fluid">
+			</div>
+<div class="col-lg-4">
+				<img src="static/u2.jpeg" class="img-fluid">
+			</div>
+<div class="col-lg-4">
+				<img src="static/malidives.jpg" class="img-fluid">
+			</div>
+<div class="col-lg-4">
+				<img src="static/org2.png" class="img-fluid">
+			</div>
+<div class="col-lg-4">
+				<img src="static/switzerland.jpg" class="img-fluid">
+			</div>
+		</div>
+		</div>
+		</div>	
+
+</body>
+</html>

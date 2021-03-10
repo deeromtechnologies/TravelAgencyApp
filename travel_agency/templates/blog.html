@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>travel agency</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+ <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='main.css')}}">
+ <link rel="stylesheet" type="text/css" href="images">
+  <link rel="stylesheet" type="text/css" href="js/main.js">
+       <script src = "https://maps.googleapis.com/maps/api/js"></script>
+
+<style>
+  .navbar{
+background-image: url("static/travel2.jpg");
+ 
+  background-repeat: no-repeat;
+  background-size: cover;
+  
+  }
+  
+.blog{
+  
+
+  min-height: 700px;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  
+  /* Needed to position the navbar */
+  position: relative;
+  padding-top:  50px;
+  
+
+  
+}
+.blog1{
+  background-image: url("static/travel2.jpg");
+
+  min-height: 500px;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  
+  /* Needed to position the navbar */
+  position: relative;
+  padding-top:  300px;
+  padding-left: 1500px;
+  color:black;
+  font-size: 22px;
+  text-shadow: 2px 2px;
+    font-style: italic;
+
+
+}
+.navbar-nav a{
+    color: red;
+    float: right;
+  }
+.nav-item1{
+  padding-left: 1000px;
+}
+.input_field{
+  padding-left:1200px;
+}
+#del {
+padding-top: 10px;
+}
+.navbar-nav a:hover {
+  
+  color: red;
+  
+}
+
+.blog1 button{
+}
+
+#nab a{
+    font-size: 22px;
+    font-style: italic;
+    font-weight: bold;
+   padding: 15px 18px;
+    color:black;
+
+  }
+
+
+</style>
+
+</head>
+
+<nav class="navbar navbar-expand-sm bg-dark navbar-white ">
+  <!-- Brand/logo -->
+  <a class="navbar-brand" href="#">
+    <img src="static/org.png" alt="logo" style="width:150px;">
+  </a>
+  
+  <!-- Links -->
+  <ul class="navbar-nav " id="nab">
+    <li class="nav-item">
+      <a class="nav-link" href="{{ url_for('home') }}" >home </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{{ url_for('blog') }}">blog</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{{ url_for('contact') }}">contact</a>
+    </li>
+   <li class="nav-item">
+      <a class="nav-link" href="{{ url_for('about') }}">about</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{{ url_for('gallery') }}">Gallery</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{{ url_for('login') }}">login </a>
+    </li>
+    
+
+  </ul>
+  
+
+
+
+
+  </nav>
+  
+<div class="blog1">
+<h1>BLOG</h1>
+<button><a href="{{ url_for('addblog') }}">add blog</a></button>
+<button>delete</button>
+<button>update</button>
+  </div>
+
+
+  <div class="blog">
+
+ <div class="container">
+ 
+  <div class="row" >
+   <div class="col-md-4 col-lg-4 col-sm-12" id="demo">
+    <div class="card">
+     <div class="card-img">
+      <img src="static/australia.jpeg" class="img-fluid" width="500px" height="1000px">
+     </div>
+     {% for user in result %}
+     <div class="card-body" >
+     <h4 class="card-title">{{users.title}} </h4>
+    {% endfor %}
+
+      <p class="card-text">
+       
+      Australia is a land of dreams. From the sacred legends of the aboriginal Dreamtime, when the great spirits conjured the coral reefs, rainforests, and scorched red deserts, to armchair travelers who describe Australia as their dream destination, the Land Down Under deserves all the hype.</p>
+
+     </div>
+
+     <div class="card-footer">
+      <a href="" class="card-link">Read more</a>
+     </div>
+    </div>
+  
+   </div>
+   <div class="col-md-4 col-lg-4 col-sm-12">
+    <div class="card">
+     <div class="card-img">
+      <img src="static/malidives.jpg" class="img-fluid">
+     </div>
+     
+     <div class="card-body">
+        <h4 class="card-title">switzerland</h4>
+      <p class="card-text">
+       switzerland is a land of dreams. From the sacred legends of the aboriginal Dreamtime, when the great spirits conjured the coral reefs, rainforests, and scorched red deserts, to armchair travelers who describe Australia as their dream destination, the Land Down Under deserves all the hype.</p>
+     </div>
+     <div class="card-footer">
+      <a href="" class="card-link">Read more</a>
+     </div>
+    </div>
+   </div>
+   <div class="col-md-4 col-lg-4 col-sm-12">
+    <div class="card">
+     <div class="card-img">
+      <img src="static/switzerland.jpg" class="img-fluid">
+     </div>
+     
+     <div class="card-body">
+     <h4 class="card-title">Indonesia</h4>
+      <p class="card-text">
+       
+       Indonesia is a land of dreams. From the sacred legends of the aboriginal Dreamtime, when the great spirits conjured the coral reefs, rainforests, and scorched red deserts, to armchair travelers who describe Australia as their dream destination, the Land Down Under deserves all the hype.</p>
+     </div>
+     <div class="card-footer">
+      <a href="" class="card-link">Read more</a>
+     </div>
+    </div>
+   </div>
+  </div>
+ </div>
+</div>
+
+
+
+
+
+  </html>

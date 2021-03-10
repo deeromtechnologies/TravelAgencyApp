@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>travel agency</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+ <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='main.css')}}">
+ <link rel="stylesheet" type="text/css" href="images">
+  <link rel="stylesheet" type="text/css" href="js/main.js">
+       <script src = "https://maps.googleapis.com/maps/api/js"></script>
+
+<style>
+  .navbar{
+background-image: url("static/blog.jpeg");
+ 
+  background-repeat: no-repeat;
+  background-size: cover;
+  
+  }
+  .contact{
+background-image: url("static/blog.jpeg");
+  min-height: 850px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  
+  }
+
+.contact{
+  background-color: lightgrey;
+
+  
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  
+  /* Needed to position the navbar */
+  position: relative;
+  padding-top:  10px;
+  
+  color:white;
+  font-size: 22px;
+  
+
+
+}
+#nab a{
+  background-color: black;
+    font-size: 22px;
+    font-style: italic;
+    font-weight: bold;
+   padding: 15px 18px;
+    color:white;
+
+  }
+.navbar-nav a{
+    color: red;
+    float: right;
+  }
+.nav-item1{
+  padding-left: 1000px;
+}
+.input_field{
+  padding-left:1200px;
+}
+#del {
+padding-top: 10px;
+}
+.navbar-nav a:hover {
+  
+  color: red;
+  
+}
+
+.form-group input{
+  background-color: black;
+  color: white;
+}
+.form-group textarea{
+  background-color: black;
+  color: white;
+}
+
+        
+
+</style>
+
+</head>
+
+<nav class="navbar navbar-expand-sm bg-dark navbar-white ">
+  <!-- Brand/logo -->
+  <a class="navbar-brand" href="#">
+    <img src="static/org.png" alt="logo" style="width:150px;">
+  </a>
+  
+  <!-- Links -->
+  <ul class="navbar-nav " id="nab">
+    <li class="nav-item">
+      <a class="nav-link" href="{{ url_for('home') }}" >home </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{{ url_for('blog') }}">blog</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{{ url_for('contact') }}">contact</a>
+    </li>
+   <li class="nav-item">
+      <a class="nav-link" href="{{ url_for('about') }}">about</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{{ url_for('gallery') }}">Gallery</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{{ url_for('login') }}">login </a>
+    </li>
+    
+
+  </ul>
+   </nav>
+  
+  <div class="contact">
+
+<div class="contact-form">
+ <div class="container">
+  <h1>add your blog here..</h1>
+
+  <form action="/addblog" method="POST">
+
+   <div class="row" id="contact1">
+    
+    <div class="col-lg-8 col-md-8 col-sm-12 right">
+      <div class="form-group">
+         <input type="text" class="form-control form-control-lg" value="{{result.userid}}" placeholder="" name="userid1">
+       </div>
+      <div class="form-group">
+         <input type="text" class="form-control form-control-lg" placeholder="Your Name" name="name">
+       </div>
+       <div class="form-group">
+         <input type="text" class="form-control form-control-lg" placeholder="Title" name="title">
+       </div>
+       
+       <div class="form-group">
+        <label for="img">add an image:</label>
+  <input type="file" id="img" name="img" accept="image/*">
+       </div>
+       <div class="form-group">
+         <textarea class="form-control form-control-lg" name="text">enter the description
+          
+         </textarea>
+       </div>
+      <div class="form-group">
+       <input type="submit" class="btn btn-secondary btn-block" value="Submit" name="">
+       <div class="form-group">
+    </div>
+   
+   
+  </form>
+ </div>
+</div></div>
+  </html>
