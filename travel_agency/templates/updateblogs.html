@@ -133,40 +133,23 @@ padding-top: 10px;
     
     <div class="col-lg-8 col-md-8 col-sm-12 right">
       <div class="form-group">
-        {{form.csrf_token}}   
-
-        <label for="userid">{{form.userid.label}}</label> <br>
-        {{form.userid()}}<br>
-         
+         <input type="text" class="form-control form-control-lg" value="{{result.userid}}" placeholder="" name="userid1">
        </div>
       <div class="form-group">
-        
-
-        <label for="userid">{{form.username.label}}</label> <br>
-        {{form.username()}}<br>
-         
+         <input type="text" class="form-control form-control-lg" placeholder="Your Name" value="{{result.username}}" name="name">
        </div>
        <div class="form-group">
-          
-
-        <label for="userid">{{form.title.label}}</label> <br>
-        {{form.title()}}<br>
-         
+         <input type="text" class="form-control form-control-lg" value="{{result.title}}"placeholder="Title" name="title">
        </div>
        
        <div class="form-group">
-          
-
-        <label for="img">{{form.image.label}}</label> <br>
-        {{form.image()}}<br>
-         
+        <label for="img">add an image:</label>
+  <input type="file" id="img" name="img" value="{{result.image}}" accept="image/*">
        </div>
        <div class="form-group">
-           
-
-        <label for="description">{{form.description.label}}</label> <br>
-        {{form.description()}}<br>
-         
+         <textarea class="form-control form-control-lg" value="{{result.text}}"name="text">enter the description
+          
+         </textarea>
        </div>
       <div class="form-group">
        <input type="submit" class="btn btn-secondary btn-block" value="Submit" name="">

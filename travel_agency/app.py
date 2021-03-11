@@ -8,13 +8,28 @@ from datetime import  date
 
 from flask_wtf import FlaskForm
 from wtforms import Form, BooleanField, StringField, PasswordField, validators
-
+from flask_wtf.file import FileField, FileRequired
 from wtforms.validators import DataRequired
 from wtforms import StringField
 from wtforms import IntegerField
+from flask_mail import Mail,Message
+
+
 
 
 app = Flask(__name__)
+
+
+
+app.config['MAIL_SERVER']='smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USERNAME'] = 'shilpaalex20@gmail.com'
+app.config['MAIL_PASSWORD'] = 'shilpaagnusalex'
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+
+
+mail = Mail(app)
 
 app.secret_key="lkjh0987"
 
@@ -36,6 +51,19 @@ class MyForm(FlaskForm):
     email = StringField('Email Address', [validators.Length(min=6, max=35)])
 
     number = IntegerField('Number', validators=[DataRequired()])
+
+
+
+
+class MyForm_blog(FlaskForm):
+    username = StringField('username', validators=[DataRequired()])
+    userid = IntegerField('userid', validators=[DataRequired()])
+    title = StringField('title', validators=[DataRequired()])
+
+    image= FileField(validators=[FileRequired()])
+
+    description= StringField('description', validators=[DataRequired()])
+
 
 
 class register(db.Model):
@@ -62,7 +90,7 @@ class blogs(db.Model):
 	id= db.Column(db.Integer, primary_key=True)
 	userid = db.Column(db.String(20),db.ForeignKey('register'))
 	username= db.Column(db.String(30),  nullable=False)
-	image= db.Column(db.String(30),  nullable=False)
+	image= db.Column(db.String(30))
 	date= db.Column(db.DateTime, nullable=False )
 	title=db.Column(db.String(20))
 	text=db.Column(db.Text(100),  nullable=False)
@@ -122,16 +150,21 @@ def about():
 @app.route('/blog')
 def blog():
 
-	
+
 
 	return render_template('blog.html')
 
 @app.route('/addblog/<user>',methods=["POST", "GET"])
 def addblog(user):
+
+	form = MyForm_blog()
 	
+
 	if request.method == "POST":
-		
-		addblogs = blogs (userid=request.form["userid1"],username=request.form["name"],image=request.form["img"],date=date,title=request.form["title"],text=request.form["text"])
+
+	
+
+		addblogs = blogs (userid=form.userid.data,username=form.username.data,image=form.image.data,date=date,title=form.title.data,text=form.description.data)
 		
 		print(request.form)
 
@@ -139,36 +172,42 @@ def addblog(user):
 		db.session.add(addblogs)
 		db.session.commit()
 
-		userid1=request.form["userid1"]
+		userid1=request.form["userid"]
 
 		return redirect(url_for("blogs1",result=userid1))
 	
 
 	result1=register.query.filter_by(userid=user).first()
 
-	return render_template("addblog.html",result=result1)
-	
+	return render_template("addblog.html",result=result1,form=form)
 
-#@app.route('/addblog1',methods=["POST", "GET"])
-#def addblog1():
 
-#	if request.method == "POST":
-#		name=request.form["name"]
-#		print(request.form)
-#		pdb.set_trace()
-#		addblog = blog (
-#		name=request.form["name"],
-#		image=request.form["img"],	
-##		title=request.form["title"],
-#		text=request.form["text"],
-#		)
-		
-	#	print(request.form)
+@app.route('/login/<int:user>/update',methods = ['GET','POST'])
+def update(user):
 
-	#	db.session.add(addblog)
-	#	db.session.commit()
-	#	return redirect(url_for("blog"))
-	#return render_template("addblog.html")
+	details = blogs.query.filter_by(userid=user).first()
+
+	if request.method == 'POST':
+		if details:
+			db.session.delete(details)
+			db.session.commit()
+ 
+			userid=request.form["userid1"]
+			name=request.form["name"]
+			title=request.form["title"]
+			image=request.form["img"]
+			text=request.form["text"]
+			
+			details= blogs(username=name,userid=userid,title=title,image=image,text=text,date=date)
+			db.session.add(details)
+			db.session.commit()
+			
+			return redirect(url_for("blogs1"))
+
+		return f"user with id = {user} Does not exist"
+ 
+	return render_template('updateblogs.html', result = details)
+
 
 @app.route('/contact')
 def contact():
@@ -187,6 +226,8 @@ def login():
 	if request.method == "POST":
 		user=request.form["Uname"]
 		
+		session['user1']=user
+
 		user1=request.form["Password"]
 		
 		login=register.query.filter_by(userid=user,password=user1).first()
@@ -224,12 +265,23 @@ def signup():
 	if request.method == "POST":
 		if form.validate_on_submit(): 
 			
+			email=form.email.data
+			print(email)
+			msg = Message("successfully registered",
+
+				sender="shilpaalex20@gmail.com",
+
+				recipients=[email])
+			msg.body = "Hello "
+
+			mail.send(msg)
 			
 			signup=register(userid=form.userid.data,username=form.username.data,password=form.password.data,email=form.email.data,number=form.number.data)
-			print(signup.username)
+			
 
 			db.session.add(signup)
 			db.session.commit()
+
 			
 			return redirect(url_for('login'))
 	
@@ -244,6 +296,10 @@ def users():
 
 	
 	return render_template("users.html",user=details)
+
+
+
+
 
 @app.route('/blogs1')
 
@@ -273,6 +329,17 @@ def delete(id):
 	db.session.commit()
 	return redirect(url_for("users"))
 
+
+@app.route("/deleteblog/<userid>")
+def deleteblog(userid):
+	
+	details= blogs.query.filter_by(userid=userid).first()
+	if employee:
+		db.session.delete(details)
+		db.session.commit()
+		return redirect(url_for("blogs1"))
+
+	return redirect(url_for("home"))
 
 
 
