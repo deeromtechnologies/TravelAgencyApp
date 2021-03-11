@@ -23,8 +23,8 @@ app = Flask(__name__)
 
 app.config['MAIL_SERVER']='smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = 'shilpaalex20@gmail.com'
-app.config['MAIL_PASSWORD'] = 'shilpaagnusalex'
+app.config['MAIL_USERNAME'] = 'None'
+app.config['MAIL_PASSWORD'] = 'None'
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 
@@ -269,7 +269,7 @@ def signup():
 			print(email)
 			msg = Message("successfully registered",
 
-				sender="shilpaalex20@gmail.com",
+				sender="email@gmail.com",
 
 				recipients=[email])
 			msg.body = "Hello "
