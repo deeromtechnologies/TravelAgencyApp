@@ -81,7 +81,7 @@ class MyForm_blog(FlaskForm):
 
 
 
-class register(UserMixin,db.Model):
+class register(db.Model):
 
 	id = db.Column(db.Integer,unique=True,primary_key=True)
 
@@ -195,7 +195,7 @@ def addblog():
 		return redirect(url_for("blogs1",result=userid1))
 	
 
-	result1=register.query.filter_by(email=current_user.email).first()
+	result1=register.query.filter_by(email=email).first()
 
 	return render_template("addblog.html",result=result1,form=form)
 	
@@ -277,11 +277,6 @@ def login():
 #	else:
 #		return redirect(url_for("login"))
 
-@app.route("/logout")
-def logout():
-	logout_user()
-	#session.pop("user",None)
-	return redirect(url_for("login"))
 
 	
 
