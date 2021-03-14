@@ -279,7 +279,7 @@ def login():
 
 @app.route("/logout")
 def logout():
-	session.clear()
+	logout_user()
 	#session.pop("user",None)
 	return redirect(url_for("login"))
 
