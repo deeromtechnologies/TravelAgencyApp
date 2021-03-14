@@ -11,6 +11,22 @@
   <link rel="stylesheet" type="text/css" href="js/main.js">
        <script src = "https://maps.googleapis.com/maps/api/js"></script>
 <style>
+
+  .navbar{
+background-image: url("static/new4.jpeg");
+ 
+  background-repeat: no-repeat;
+  background-size: cover;
+  
+  }
+    #nab a{
+    font-size: 22px;
+    font-style: italic;
+    font-weight: bold;
+   padding: 15px 18px;
+    color:black;
+
+  }
   .contact{
     background-image: url("static/travel4.jpg");
     background-size: cover;
@@ -22,6 +38,45 @@
     padding-top: 100px;
 
   }
+  .dropbtn {
+  background :none;
+  color: black;
+  
+  font-size: 22px;
+  border: none;
+  
+    font-style: italic;
+    font-weight: bold;
+   padding: 15px 18px;
+  
+}
+
+.dropdown {
+  position: relative;
+  
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {background-color: #ddd;}
+
+.dropdown:hover .dropdown-content {display: block;}
+
+.dropdown:hover .dropbtn {background-color: red;}
 </style>
 
 </head>
@@ -32,7 +87,7 @@
   </a>
   
   <!-- Links -->
-  <ul class="navbar-nav ">
+  <ul class="navbar-nav " id="nab">
     <li class="nav-item">
       <a class="nav-link" href="{{ url_for('home') }}"  >home </a>
     </li>
@@ -40,7 +95,14 @@
       <a class="nav-link" href="{{ url_for('about') }}" >about</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="{{ url_for('blog') }}" >blog</a>
+       <div class="dropdown">
+  <button class="dropbtn">blog</button>
+  <div class="dropdown-content">
+    <a href="#">add blog</a>
+    <a href="#">update blog</a>
+    <a href="#">delete blog</a>
+  </div>
+</div>
     </li>
     <li class="nav-item">
       <a class="nav-link" href="#">contact</a>

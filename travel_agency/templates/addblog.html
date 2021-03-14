@@ -21,7 +21,7 @@ background-image: url("static/blog.jpeg");
   }
   .contact{
 background-image: url("static/blog.jpeg");
-  min-height: 850px;
+  min-height: 1050px;
   background-repeat: no-repeat;
   background-size: cover;
   
@@ -46,6 +46,15 @@ background-image: url("static/blog.jpeg");
   
 
 
+}
+.container{
+
+    width: 700px;  
+    height: 30px;  
+    border: none;  
+    border-radius: 17px;  
+    padding-left: 7px;  
+    color: blue;  
 }
 #nab a{
   background-color: black;
@@ -84,6 +93,45 @@ padding-top: 10px;
   color: white;
 }
 
+.dropbtn {
+
+  color: white;
+  
+  background-color: black;
+    font-size: 22px;
+    font-style: italic;
+    font-weight: bold;
+   padding: 15px 18px;
+    color:white;
+  
+}
+
+.dropdown {
+  position: relative;
+  
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: white;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {background-color: #ddd;}
+
+.dropdown:hover .dropdown-content {display: block;}
+
+.dropdown:hover .dropbtn {background-color: red;}
         
 
 </style>
@@ -101,9 +149,7 @@ padding-top: 10px;
     <li class="nav-item">
       <a class="nav-link" href="{{ url_for('home') }}" >home </a>
     </li>
-    <li class="nav-item">
-      <a class="nav-link" href="{{ url_for('blog') }}">blog</a>
-    </li>
+    
     <li class="nav-item">
       <a class="nav-link" href="{{ url_for('contact') }}">contact</a>
     </li>
@@ -116,7 +162,16 @@ padding-top: 10px;
     <li class="nav-item">
       <a class="nav-link" href="{{ url_for('login') }}">login </a>
     </li>
-    
+    <li class="nav-item">
+      <div class="dropdown">
+ <button class="dropbtn">blog</button>
+  <div class="dropdown-content">
+    <a href="#">add blog</a>
+    <a href="#">update blog</a>
+    <a href="#">delete blog</a>
+  </div>
+</div>
+    </li>
 
   </ul>
    </nav>
@@ -136,20 +191,34 @@ padding-top: 10px;
         {{form.csrf_token}}   
 
         <label for="userid">{{form.userid.label}}</label> <br>
-        {{form.userid()}}<br>
+        {{form.userid(value=result.userid)}}<br>
          
        </div>
+
       <div class="form-group">
         
 
-        <label for="userid">{{form.username.label}}</label> <br>
-        {{form.username()}}<br>
+        <label for="username">{{form.username.label}}</label> <br>
+        {{form.username(value=result.username)}}<br>
          
        </div>
+        <div class="form-group">
+       <label for="email">{{form.email.label}}</label> <br>
+        {{form.email(value=result.email)}}<br>
+         
+       </div>
+        <div class="form-group">
+          
+
+        <label for="blog_id">{{form.blog_id.label}}</label> <br>
+        {{form.blog_id()}}<br>
+         
+       </div>
+      
        <div class="form-group">
           
 
-        <label for="userid">{{form.title.label}}</label> <br>
+        <label for="title">{{form.title.label}}</label> <br>
         {{form.title()}}<br>
          
        </div>
@@ -157,7 +226,7 @@ padding-top: 10px;
        <div class="form-group">
           
 
-        <label for="img">{{form.image.label}}</label> <br>
+        <label for="image">{{form.image.label}}</label> <br>
         {{form.image()}}<br>
          
        </div>

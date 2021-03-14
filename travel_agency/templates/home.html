@@ -28,7 +28,7 @@ background-image: url("static/new4.jpeg");
     color:black;
 
   }
-  .navbar-nav a:hover {
+  .navbar ul li a:hover {
   background-color:red;
   
   
@@ -66,11 +66,52 @@ background-image: url("static/new4.jpeg");
   position: relative;
 
 }
-.search-container {
-  padding-left: 450px;
+.logout {
+  padding-left: 650px;
   
  
 }
+
+.dropbtn {
+  background :none;
+  color: black;
+  
+  font-size: 22px;
+  border: none;
+  
+    font-style: italic;
+    font-weight: bold;
+   padding: 15px 18px;
+  
+}
+
+.dropdown {
+  position: relative;
+  
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {background-color: #ddd;}
+
+.dropdown:hover .dropdown-content {display: block;}
+
+.dropdown:hover .dropbtn {background-color: red;}
+</style>
 </style>
 
 </head>
@@ -88,14 +129,20 @@ background-image: url("static/new4.jpeg");
       <a class="nav-link" href="#" >home </a>
     </li>
    <li class="nav-item">
-      <a class="nav-link" href="{{ url_for('about') }}">about us</a>
+      <a class="nav-link" class="fa fa-home" href="{{ url_for('about') }}">about us</a>
     </li>
-    <li class="nav-item">
-      <a class="nav-link" href="{{ url_for('blogs1') }}">blog</a>
-      
-        </li>
-      
-    
+  
+    <li class="nav-item1">
+      <div class="dropdown">
+  <button class="dropbtn">blog</button>
+  <div class="dropdown-content">
+    <a href="{{ url_for('addblog') }}">add blog</a>
+    <a href="{{ url_for('update') }}">update blog</a>
+    <a href="{{ url_for('deleteblog') }}">delete blog</a>
+
+</div>
+</div>
+     </li>
     <li class="nav-item">
       <a class="nav-link" href="{{ url_for('contact') }}">contact</a>
     </li>
@@ -112,16 +159,15 @@ background-image: url("static/new4.jpeg");
       <a class="nav-link" href="{{ url_for('booking') }}">booking form </a>
     </li>
   </ul>
-  <div class="search-container">
-    <form action="">
-      <input type="text" placeholder="Search.." name="search">
-      <button type="submit">Submit</button>
-    </form>
-  </div></nav>
+<div class="logout" >
+  <a href="{{url_for('logout')}}" class="btn btn-info btn-lg">
+<i class="fa fa-sign-out" >log out</i></a>
+</div>
+  </nav>
   <div class="container-fluid">
   <div class="new-content">
 
-    <h1>Make memories....{{session['user']}}!</h1>
+    <h1>Make memories....{{session['user']}}</h1>
     <h2>A new pulse of DREAM...</h2>
      
   </div>
@@ -260,7 +306,7 @@ background-image: url("static/new4.jpeg");
 <br><br>
       <div class="search_btn" color="white">
        
-       <button ><a href="{{ url_for('login') }}">login</a></button>
+       <button ><a href="#">login</a></button>
     
       </div>
 </form>
@@ -371,6 +417,7 @@ lane New York-1782
 </ul>
   
 </div>
+
 <div class="col-lg-4" id="map">
 
  <div id = "sample" style = "width:580px; height:400px;"></div>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>delete blog</title>
+</head>
+<body>
+
+<form action="/blogs1" method="POST">
+<table border='2'>
+  <tr>
+    <th>id</th>
+    <th>blog id</th>
+    <th>userid</th>
+    <th>date</th>
+    <th>name</th>
+    <th>title</th>
+    <th>image</th>
+    <th>description</th>
+  </tr>
+{% for users in result %}
+<tr>
+
+<td>{{users.id}}</td>
+<td>{{users.bid}}
+<td>{{users.userid}}</td>
+<td>{{users.date}}</td>
+<td>{{users.username}}</td>
+<td>{{users.title}}</td>
+<td>{{users.image}}</td>
+<td>{{users.text}}</td>
+
+<td>
+<a href="{{ url_for('deleteblog',bid=result.bid) }}"><button type="button">edit</button></a>
+
+
+</td>
+
+</tr>
+{% endfor %}
+
+
+</form>
+</body>
+
+</html>

@@ -18,7 +18,23 @@ body
     padding: 0;  
     background-color:white;  
     font-family: 'Arial';  
-}  
+} 
+.navbar{
+background-image: url("static/new4.jpeg");
+ 
+  background-repeat: no-repeat;
+  background-size: cover;
+  
+  }
+    #nab a{
+    font-size: 22px;
+    font-style: italic;
+    font-weight: bold;
+   padding: 15px 18px;
+    color:black;
+
+  }
+
 .login{  
         width: 450px;  
         overflow: hidden;  
@@ -89,6 +105,51 @@ span{
 
 }
 
+.dropbtn {
+  background :none;
+  color: black;
+  
+  font-size: 22px;
+  border: none;
+  
+    font-style: italic;
+    font-weight: bold;
+   padding: 15px 18px;
+  
+}
+
+.dropdown {
+  position: relative;
+  
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {background-color: #ddd;}
+
+.dropdown:hover .dropdown-content {display: block;}
+
+.dropdown:hover .dropbtn {background-color: red;}
+
+.text {
+    color: black;
+    font size: 14px;
+    background-color: red;
+}
 </style>
 
 </head>
@@ -99,7 +160,7 @@ span{
   </a>
   
   <!-- Links -->
-  <ul class="navbar-nav ">
+  <ul class="navbar-nav " id="nab">
     <li class="nav-item">
       <a class="nav-link" href="{{ url_for('home') }}" >home </a>
     </li>
@@ -107,7 +168,14 @@ span{
       <a class="nav-link" href="{{ url_for('about') }}"  >about us</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="{{ url_for('blog') }}" >blog</a>
+     <div class="dropdown">
+  <button class="dropbtn">blog</button>
+  <div class="dropdown-content">
+    <a href="#">add blog</a>
+    <a href="#">update blog</a>
+    <a href="#">delete blog</a>
+  </div>
+</div>
     </li>
     <li class="nav-item">
       <a class="nav-link" href="{{ url_for('contact') }}" >contact</a>
@@ -122,15 +190,24 @@ span{
   
 
   </nav>
+  {% block content %}
 <div class="img">
 <h2>Login </h2><br>  
 <div class="login">  
         
+  {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="text">
+                    {{ messages[0] }}
+                </div>
+            {% endif %}
+        {% endwith %}
+        
     <form id="login" method="POST" action="/login">    
-        <label><b>User id     
+        <label><b>Email    
         </b>    
         </label>    
-        <input type="text" name="Uname" id="Uname" placeholder="Userid" required="">    
+        <input type="text" name="email" id="Uname" placeholder="Userid" required="">    
         <br><br>    
         <label><b>Password     
         </b>    
@@ -147,6 +224,9 @@ span{
         
     </form>     
 </div>    
-	</div>		
+	</div>
+
+
 </body>
 </html>
+{% endblock %}

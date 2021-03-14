@@ -1,4 +1,4 @@
-from flask import Flask,render_template,url_for,redirect,request,session
+from flask import Flask,render_template,url_for,redirect,request,session,flash
 
 from flask_sqlalchemy import SQLAlchemy
 
@@ -14,9 +14,14 @@ from wtforms import StringField
 from wtforms import IntegerField
 from flask_mail import Mail,Message
 
+from flask_login import LoginManager, UserMixin
 
+from werkzeug.security import generate_password_hash, check_password_hash
 
+from flask_login import login_user, logout_user, login_required
 
+import flask_login
+from flask_login import login_required, current_user
 app = Flask(__name__)
 
 
@@ -36,13 +41,20 @@ app = Flask(__name__)
 app.secret_key="lkjh0987"
 
 
-
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
-app.config["SQLALCHEMY_DATABASE_URI"] = ("sqlite:///travel.db")
+app.config["SQLALCHEMY_DATABASE_URI"] = ("sqlite:///travel_web.db")
 
 db = SQLAlchemy(app)
 
+
+login_manager= LoginManager()
+login_manager.login_view = 'login'
+login_manager.init_app(app)
+
+@login_manager.user_loader
+def load_user(user_id):
+	return register.query.get(int(user_id))
 
 
 class MyForm(FlaskForm):
@@ -61,14 +73,15 @@ class MyForm_blog(FlaskForm):
     username = StringField('username', validators=[DataRequired()])
     userid = IntegerField('userid', validators=[DataRequired()])
     title = StringField('title', validators=[DataRequired()])
-
+    blog_id = IntegerField('blogid', validators=[DataRequired()])
     image= FileField(validators=[FileRequired()])
+    email = StringField('Email Address', [validators.Length(min=6, max=35)])
 
     description= StringField('description', validators=[DataRequired()])
 
 
 
-class register(db.Model):
+class register(UserMixin,db.Model):
 
 	id = db.Column(db.Integer,unique=True,primary_key=True)
 
@@ -92,12 +105,13 @@ class blogs(db.Model):
 	id= db.Column(db.Integer, primary_key=True)
 	userid = db.Column(db.String(20),db.ForeignKey('register'))
 	username= db.Column(db.String(30),  nullable=False)
+	blog_id=db.Column(db.Integer)
 	image= db.Column(db.String(30))
 	date= db.Column(db.DateTime, nullable=False )
 	title=db.Column(db.String(20))
 	text=db.Column(db.Text(100),  nullable=False)
-	
-	def __init__(self,username , image,date,title,text,userid):
+	email=db.Column(db.String(20))
+	def __init__(self,username , image,date,title,text,userid,blog_id,email):
 		
 		self.userid=userid
 		self.username = username
@@ -105,6 +119,8 @@ class blogs(db.Model):
 		self.date= date
 		self.title = title
 		self.text = text
+		self.email = email
+		self.blog_id= blog_id
 date=date.today()
 
 class booking(db.Model):
@@ -156,17 +172,17 @@ def blog():
 
 	return render_template('blog.html')
 
-@app.route('/addblog/<user>',methods=["POST", "GET"])
-def addblog(user):
+@app.route('/addblog',methods=["POST", "GET"])
+def addblog():
 
 	form = MyForm_blog()
+	#user=flask_login.current_user
 	
-
 	if request.method == "POST":
 
 	
 
-		addblogs = blogs (userid=form.userid.data,username=form.username.data,image=form.image.data,date=date,title=form.title.data,text=form.description.data)
+		addblogs = blogs (userid=form.userid.data,username=form.username.data,image=form.image.data,date=date,title=form.title.data,text=form.description.data,email=form.email.data,blog_id=form.blog_id.data)
 		
 		print(request.form)
 
@@ -179,37 +195,37 @@ def addblog(user):
 		return redirect(url_for("blogs1",result=userid1))
 	
 
-	result1=register.query.filter_by(userid=user).first()
+	result1=register.query.filter_by(email=current_user.email).first()
 
 	return render_template("addblog.html",result=result1,form=form)
+	
 
+@app.route('/update',methods = ['GET','POST'])
+def update():
+	if not session.get("user") is None:
+		details = blogs.query.filter_by(userid=user).first()
 
-@app.route('/login/<int:user>/update',methods = ['GET','POST'])
-def update(user):
+		if request.method == 'POST':
+			if details:
+				db.session.delete(details)
+				db.session.commit()
+	 
+				userid=request.form["userid1"]
+				name=request.form["name"]
+				title=request.form["title"]
+				image=request.form["img"]
+				text=request.form["text"]
+				
+				details= blogs(username=name,userid=userid,title=title,image=image,text=text,date=date)
+				db.session.add(details)
+				db.session.commit()
+				
+				return redirect(url_for("blogs1"))
 
-	details = blogs.query.filter_by(userid=user).first()
-
-	if request.method == 'POST':
-		if details:
-			db.session.delete(details)
-			db.session.commit()
- 
-			userid=request.form["userid1"]
-			name=request.form["name"]
-			title=request.form["title"]
-			image=request.form["img"]
-			text=request.form["text"]
-			
-			details= blogs(username=name,userid=userid,title=title,image=image,text=text,date=date)
-			db.session.add(details)
-			db.session.commit()
-			
-			return redirect(url_for("blogs1"))
-
-		return f"user with id = {user} Does not exist"
- 
-	return render_template('updateblogs.html', result = details)
-
+			return f"user with id = {user} Does not exist"
+	 
+		return render_template('updateblogs.html', result = details)
+	return render_template('login.html')
 
 @app.route('/contact')
 def contact():
@@ -226,16 +242,26 @@ def page():
 def login():
 
 	if request.method == "POST":
-		user=request.form["Uname"]
+		user=request.form["email"]
 		
-		session['user1']=user
+		session["user"]=user
 
 		user1=request.form["Password"]
 		
-		login=register.query.filter_by(userid=user,password=user1).first()
-		if login is not None:
-			return redirect(url_for("addblog",user=user))
 		
+		user=register.query.filter_by(email=user).first()
+	
+		
+		#return redirect(url_for("addblog",user=user))
+		if not user or not check_password_hash(user.password,user1):
+		#if login is not None:
+			flash("check login credential")
+			return(redirect(url_for("login")))
+
+
+		login_user(user)
+		flash("you have been logged in")
+		return redirect(url_for("home"))
 		#return redirect(url_for("user", user=user))
 		
 	return render_template('login.html')
@@ -266,9 +292,11 @@ def signup():
 	
 	if request.method == "POST":
 		if form.validate_on_submit(): 
-			
 			email=form.email.data
-			print(email)
+			signup=register.query.filter_by(email=email).first()
+			if signup:  # if a user is found, we want to redirect back to signup page so user can try again
+				flash('Email address already exists')
+				return redirect(url_for('signup'))
 			#msg = Message("successfully registered",
 
 				
@@ -280,14 +308,14 @@ def signup():
 
 			#mail.send(msg)
 			
-			signup=register(userid=form.userid.data,username=form.username.data,password=form.password.data,email=form.email.data,number=form.number.data)
+			signup=register(userid=form.userid.data,username=form.username.data,password=generate_password_hash(form.password.data,method='sha256'),email=form.email.data,number=form.number.data)
 			
 
 			db.session.add(signup)
 			db.session.commit()
 
-			
-			return redirect(url_for('login'))
+		
+		return redirect(url_for('login'))
 	
 	return render_template('signup.html',form=form)
 
@@ -334,19 +362,26 @@ def delete(id):
 	return redirect(url_for("users"))
 
 
-@app.route("/deleteblog/<userid>")
-def deleteblog(userid):
+
+@app.route("/deleteblog")
+def deleteblog():
+	result1=blogs.query.filter_by(email=current_user.email).first()
+	if result1:
 	
-	details= blogs.query.filter_by(userid=userid).first()
-	if employee:
-		db.session.delete(details)
+	
+		db.session.delete(result1)
 		db.session.commit()
 		return redirect(url_for("blogs1"))
 
-	return redirect(url_for("home"))
+	return render_template("deleteblog.html",result=details)
+
+	return f"user with id = {user} Does not created any blog"
+
+		
 
 
-
+	return redirect(url_for("login"))
+	
 
 @app.route('/booking',methods=["POST","GET"])
 def booking():
@@ -366,13 +401,13 @@ def booking():
 		db.session.commit()
 		return render_template('booking.html')
 
-
+	return render_template('booking.html')
 
 @app.route('/gallery')
 def gallery():
 	return render_template('gallery.html')
 
 if __name__ == "__main__":
-
+	create_app()
 	db.create_all()
 	app.run(debug= True)
