@@ -34,6 +34,14 @@ background-image: url("static/new4.jpeg");
     color:black;
 
   }
+ #nab a{
+    font-size: 22px;
+    font-style: italic;
+    font-weight: bold;
+   padding: 15px 18px;
+    color:black;
+
+  }
 
 .login{  
         width: 450px;  
@@ -42,22 +50,31 @@ background-image: url("static/new4.jpeg");
         margin: 20 0 0 450px;  
         padding: 80px;  
         background: black;  
-        border-radius: 15px ; 
-        
-
+        border-radius: 15px ;  
           
 }  
+#login input{
+  width: 300px;  
+    height: 30px;  
+    border: none;  
+    border-radius: 17px;  
+    padding-left: 7px;  
+    color: blue;  
 
-h2{
-
+}
+#login label{
+  padding-left: 50px;
+  padding-top: 10px;
+}
+  
+h2{  
     text-align: center;  
     color: red;  
-    padding: 20px; 
-    font-size: 40px; 
-
+    padding: 20px;  
+    
 }  
-
 label{  
+    padding-right: 10px;
     color: white;  
     font-size: 17px;  
 }  
@@ -83,19 +100,39 @@ label{
     border-radius: 17px;  
     padding-left: 7px;  
     color: blue;  
+
   
   
 }  
+.log button{
+    padding-top: 10px;
+}
+
 span{  
     color: white;  
-    font-size: 15px;  
+    font-size: 17px;  
 }  
 #signin{
-	padding-left: 90px;
-	 font-style: italic;
-	font-size: 20px;
-	color: white;
+    padding-left: 90px;
+     font-style: italic;
+    font-size: 20px;
+    color: white;
 }
+.img{
+
+  background-image: url("static/travel4.jpg");
+    background-size: cover;
+    background-position: center;
+    min-height: 850px;
+
+}
+#check input{
+  padding-right: 70px;
+  font-size: 5px;
+}
+
+
+
 .img{
 
 	background-image: url("static/travel4.jpg");
@@ -204,22 +241,21 @@ span{
         {% endwith %}
         
     <form id="login" method="POST" action="/login">    
-        <label><b>Email    
-        </b>    
-        </label>    
-        <input type="text" name="email" id="Uname" placeholder="Userid" required="">    
-        <br><br>    
-        <label><b>Password     
-        </b>    
-        </label>    
-        <input type="Password" name="Password" id="Pass" placeholder="Password">    
-        <br><br>   
-       <button class="log"> 
-        submit </button>
+        {{form.csrf_token}}   
+
+       <label for="email">{{form.email.label}}</label> <br>
+        {{form.email()}}<br>
+     
+
+        <label for="password">{{form.password.label}}</label> <br>
+        {{form.password()}}<br>
+
+       <button class="log">submit </button>
               
         <br><br>    
-        <input type="checkbox" id="check">    
-        <span>Remember me</span>  
+        <label for="remember me">{{form.remember_me.label}}</label> <br>
+        {{form.remember_me()}}<br>
+     
         <a href="{{ url_for('signup') }}" id="signin">sign up</a>  
         
     </form>     

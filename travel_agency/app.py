@@ -22,6 +22,8 @@ from flask_login import login_user, logout_user, login_required
 
 import flask_login
 from flask_login import login_required, current_user
+
+
 app = Flask(__name__)
 
 
@@ -43,7 +45,7 @@ app.secret_key="lkjh0987"
 
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
-app.config["SQLALCHEMY_DATABASE_URI"] = ("sqlite:///travel_web.db")
+app.config["SQLALCHEMY_DATABASE_URI"] = ("sqlite:///traveldb.db")
 
 db = SQLAlchemy(app)
 
@@ -67,7 +69,11 @@ class MyForm(FlaskForm):
     number = IntegerField('Number', validators=[DataRequired()])
 
 
+class Myform_login(FlaskForm):
 
+	password = PasswordField('password', validators=[DataRequired()])
+	remember_me = BooleanField('remember_me',validators=[DataRequired()])
+	email = StringField('Email Address', [validators.Length(min=6, max=35)])
 
 class MyForm_blog(FlaskForm):
     username = StringField('username', validators=[DataRequired()])
@@ -165,6 +171,36 @@ def about():
 	return render_template('about.html')
 
 
+
+
+@app.route('/addblog',methods=["POST", "GET"])
+def addblog():
+	if not session.get("user") is None:
+		form = MyForm_blog()
+		user=flask_login.current_user
+		
+		if request.method == "POST":
+
+		
+
+			addblogs = blogs (userid=form.userid.data,username=form.username.data,image=form.image.data,date=date,title=form.title.data,text=form.description.data,email=form.email.data,blog_id=form.blog_id.data)
+			
+			print(request.form)
+
+
+			db.session.add(addblogs)
+			db.session.commit()
+
+			userid1=request.form["userid"]
+
+			return redirect(url_for("blogs1",result=userid1))
+		
+
+		result1=register.query.filter_by(email=current_user.email).first()
+
+		return render_template("addblog.html",result=result1,form=form)
+	return redirect(url_for("login"))
+
 @app.route('/blog')
 def blog():
 
@@ -172,40 +208,26 @@ def blog():
 
 	return render_template('blog.html')
 
-@app.route('/addblog',methods=["POST", "GET"])
-def addblog():
 
-	form = MyForm_blog()
-	#user=flask_login.current_user
-	
-	if request.method == "POST":
-
-	
-
-		addblogs = blogs (userid=form.userid.data,username=form.username.data,image=form.image.data,date=date,title=form.title.data,text=form.description.data,email=form.email.data,blog_id=form.blog_id.data)
-		
-		print(request.form)
-
-
-		db.session.add(addblogs)
-		db.session.commit()
-
-		userid1=request.form["userid"]
-
-		return redirect(url_for("blogs1",result=userid1))
-	
-
-	result1=register.query.filter_by(email=current_user.email).first()
-
-	return render_template("addblog.html",result=result1,form=form)
-	
 
 @app.route('/update',methods = ['GET','POST'])
 def update():
+	user=flask_login.current_user
 	if not session.get("user") is None:
-		details = blogs.query.filter_by(userid=user).first()
+		
+		details = blogs.query.filter_by(email=current_user.email).first()
 
+		return render_template("updateblogs.html",result=details)
+
+	return redirect(url_for("login"))
+
+
+
+@app.route('/updated',methods = ['GET','POST'])
+def updated():
+	if not session.get("user") is None:
 		if request.method == 'POST':
+			details = blogs.query.filter_by(email=current_user.email).first()
 			if details:
 				db.session.delete(details)
 				db.session.commit()
@@ -215,17 +237,23 @@ def update():
 				title=request.form["title"]
 				image=request.form["img"]
 				text=request.form["text"]
-				
-				details= blogs(username=name,userid=userid,title=title,image=image,text=text,date=date)
+				email=request.form["email"]
+				blog_id=request.form["blog_id"]
+
+				details= blogs(username=name,userid=userid,title=title,image=image,text=text,date=date,blog_id=blog_id,email=email)
 				db.session.add(details)
 				db.session.commit()
 				
 				return redirect(url_for("blogs1"))
 
 			return f"user with id = {user} Does not exist"
-	 
+
+		details = blogs.query.filter_by(email=current_user.email).first()
 		return render_template('updateblogs.html', result = details)
 	return render_template('login.html')
+
+
+
 
 @app.route('/contact')
 def contact():
@@ -240,31 +268,30 @@ def page():
 
 @app.route('/login',methods=["POST", "GET"])
 def login():
-
+	form = Myform_login()
 	if request.method == "POST":
-		user=request.form["email"]
-		
-		session["user"]=user
+		if form.validate_on_submit(): 
+			user=form.email.data
+			session["user"]=user
 
-		user1=request.form["Password"]
+			user1=form.email.data
+			
+			user=register.query.filter_by(email=user).first()
 		
-		
-		user=register.query.filter_by(email=user).first()
-	
-		
-		#return redirect(url_for("addblog",user=user))
-		if not user or not check_password_hash(user.password,user1):
-		#if login is not None:
-			flash("check login credential")
-			return(redirect(url_for("login")))
+			
+			#return redirect(url_for("addblog",user=user))
+			if not user or not check_password_hash(user.password,user1):
+			#if login is not None:
+				flash("check login credential")
+				return(redirect(url_for("login",form=form)))
 
 
-		login_user(user)
-		flash("you have been logged in")
-		return redirect(url_for("home"))
-		#return redirect(url_for("user", user=user))
+			login_user(user)
+			flash("you have been logged in")
+			return redirect(url_for("home"))
+			#return redirect(url_for("user", user=user))
 		
-	return render_template('login.html')
+	return render_template('login.html',form=form)
 
 
 #@app.route("/user")*
@@ -365,23 +392,29 @@ def delete(id):
 
 @app.route("/deleteblog")
 def deleteblog():
-	result1=blogs.query.filter_by(email=current_user.email).first()
-	if result1:
-	
-	
-		db.session.delete(result1)
+	if not session.get("user") is None:
+		
+		
+		result=blogs.query.all()
+
+		if result:
+
+			return render_template("deleteblog.html",user=result)
+
+		return f"user  Does not created any blog"
+
+	return redirect(url_for("login"))		
+
+@app.route("/delete_blog")
+def delete_blog():
+
+	details = blogs.query.filter_by(email=current_user.email).first()
+	if details:
+
+		db.session.delete(details)
 		db.session.commit()
 		return redirect(url_for("blogs1"))
-
-	return render_template("deleteblog.html",result=details)
-
-	return f"user with id = {user} Does not created any blog"
-
-		
-
-
-	return redirect(url_for("login"))
-	
+	return redirect(url_for("deleteblog"))
 
 @app.route('/booking',methods=["POST","GET"])
 def booking():
@@ -409,5 +442,5 @@ def gallery():
 
 if __name__ == "__main__":
 	create_app()
-	db.create_all()
+	#db.create_all()
 	app.run(debug= True)

@@ -2,8 +2,199 @@
 <html>
 <head>
   <title>page not found</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>travel agency</title>
+
+ <link rel="stylesheet" type="text/css"  href="{{url_for('static', filename='main.css')}}">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+ 
+  <link rel="stylesheet"  href="{{url_for('static', filename='main.js')}}">
+       <script src = "https://maps.googleapis.com/maps/api/js"></script>
+<style type="text/css">
+  .navbar{
+background-image: url("static/new4.jpeg");
+ 
+  background-repeat: no-repeat;
+  background-size: cover;
+  
+  }
+  #nab a{
+    font-size: 22px;
+    font-style: italic;
+    font-weight: bold;
+   padding: 15px 18px;
+    color:black;
+
+  }
+  .navbar ul li a:hover {
+  background-color:red;
+  
+  
+}
+.container-fluid h1,h2 {
+  color:black;
+  font-weight: bold;
+  }
+  
+  .container-fluid {
+  
+  background-image: url("static/new4.jpeg");
+
+  min-height: 800px;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  
+  /* Needed to position the navbar */
+  position: relative;
+  padding-top:  300px;
+  padding-left: 1200px;
+   font-style: italic;
+}
+.video{
+  background-image: url("static/travel2.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding-left: 500px;
+  
+  /* Needed to position the navbar */
+  position: relative;
+
+}
+.logout {
+  padding-left: 650px;
+  
+ 
+}
+h2{  
+    text-align: center;  
+    color: red;  
+    padding: 20px;  
+    
+}  
+body  
+{  
+    margin: 0;  
+    padding: 0;  
+    background-color:#6abadeba;  
+    font-family: 'Arial';  
+}  
+.blogs{  
+        width: 850px; 
+        height: 550px; 
+        overflow: hidden;  
+        margin: auto;  
+        margin: 20 0 0 450px;  
+        padding: 80px;  
+        background: black;  
+        border-radius: 15px ; 
+        color:white;
+        padding-top: 100px; 
+         
+}  
+
+.dropbtn {
+  background :none;
+  color: black;
+  
+  font-size: 22px;
+  border: none;
+  
+    font-style: italic;
+    font-weight: bold;
+   padding: 15px 18px;
+  
+}
+
+.dropdown {
+  position: relative;
+  
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {background-color: #ddd;}
+
+.dropdown:hover .dropdown-content {display: block;}
+
+.dropdown:hover .dropbtn {background-color: red;}
+</style>
+</style>
+
 </head>
+
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark ">
+  <!-- Brand/logo -->
+  
+  <a class="navbar-brand" href="#">
+    <img src="static/org.png" alt="logo" style="width:150px;">
+  </a>
+  
+  <!-- Links -->
+  <ul class="navbar-nav " id="nab">
+    <li class="nav-item">
+      <a class="nav-link" href="#" >home </a>
+    </li>
+   <li class="nav-item">
+      <a class="nav-link" class="fa fa-home" href="{{ url_for('about') }}">about us</a>
+    </li>
+  
+    <li class="nav-item1">
+      <div class="dropdown">
+  <button class="dropbtn">blog</button>
+  <div class="dropdown-content">
+    <a href="{{ url_for('addblog') }}">add blog</a>
+    <a href="{{ url_for('updated') }}">update blog</a>
+    <a href="{{ url_for('deleteblog') }}">delete blog</a>
+
+</div>
+</div>
+     </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{{ url_for('contact') }}">contact</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{{ url_for('gallery') }}">Gallery</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{{ url_for('page') }}">page </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{{ url_for('login') }}">login </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{{ url_for('booking') }}">booking form </a>
+    </li>
+  </ul>
+<div class="logout" >
+  <a href="{{url_for('logout')}}" class="btn btn-info btn-lg">
+<i class="fa fa-sign-out" >log out</i></a>
+</div>
+  </nav>
+</head>
+
 <body>
+	<h2>BLOGS</h2>
+<div class="blogs">
 
 <form action="/blogs1" method="POST">
 <table border='2'>
@@ -12,6 +203,8 @@
     <th>userid</th>
     <th>date</th>
     <th>name</th>
+    <th>blog_id</th>
+    <th>email</th>
     <th>title</th>
     <th>image</th>
     <th>description</th>
@@ -23,6 +216,8 @@
 <td>{{users.userid}}</td>
 <td>{{users.date}}</td>
 <td>{{users.username}}</td>
+<td>{{users.blog_id}}</td>
+<td>{{users.email}}</td>
 <td>{{users.title}}</td>
 <td>{{users.image}}</td>
 <td>{{users.text}}</td>
@@ -31,7 +226,10 @@
 {% endfor %}
 
 
+
+</table>
 </form>
+</div>
 </body>
 
 </html>

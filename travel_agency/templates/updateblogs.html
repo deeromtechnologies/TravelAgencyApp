@@ -87,6 +87,7 @@ padding-top: 10px;
   background-color: black;
   color: white;
 }
+
 .form-group textarea{
   background-color: black;
   color: white;
@@ -131,7 +132,9 @@ padding-top: 10px;
 .dropdown:hover .dropdown-content {display: block;}
 
 .dropdown:hover .dropbtn {background-color: red;}     
-
+.image label{
+	color: black;
+}
 </style>
 
 </head>
@@ -178,15 +181,21 @@ padding-top: 10px;
 
 <div class="contact-form">
  <div class="container">
-  <h1>add your blog here..</h1>
+  <h1>update your blog here..</h1>
 
-  <form action="#" method="POST">
+  <form action="/updated" method="POST">
 
    <div class="row" id="contact1">
     
     <div class="col-lg-8 col-md-8 col-sm-12 right">
       <div class="form-group">
          <input type="text" class="form-control form-control-lg" value="{{result.userid}}" placeholder="" name="userid1">
+       </div>
+       <div class="form-group">
+         <input type="text" class="form-control form-control-lg" value="{{result.blog_id}}" placeholder="" name="blog_id">
+       </div>
+       <div class="form-group">
+         <input type="text" class="form-control form-control-lg" value="{{result.email}}" placeholder="" name="email">
        </div>
       <div class="form-group">
          <input type="text" class="form-control form-control-lg" placeholder="Your Name" value="{{result.username}}" name="name">
@@ -196,7 +205,7 @@ padding-top: 10px;
        </div>
        
        <div class="form-group">
-        <label for="img">add an image:</label>
+        <label for="img" class="image">add an image:</label>
   <input type="file" id="img" name="img" value="{{result.image}}" accept="image/*">
        </div>
        <div class="form-group">
@@ -205,8 +214,8 @@ padding-top: 10px;
          </textarea>
        </div>
       <div class="form-group">
-       <input type="submit" class="btn btn-secondary btn-block" value="Submit" name="">
-       <div class="form-group">
+       <button>update</button>
+       
     </div>
    
    
