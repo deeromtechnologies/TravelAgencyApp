@@ -436,6 +436,11 @@ def booking():
 def gallery():
 	return render_template('gallery.html')
 
+@app.route('/logout')
+def logout():
+	logout_user()
+	return redirect(url_for('logout'))
+
 if __name__ == "__main__":
 	create_app()
 	#db.create_all()
