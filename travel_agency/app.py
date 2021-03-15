@@ -87,7 +87,7 @@ class MyForm_blog(FlaskForm):
 
 
 
-class register(db.Model):
+class register(UserMixin,db.Model):
 
 	id = db.Column(db.Integer,unique=True,primary_key=True)
 
@@ -132,7 +132,7 @@ date=date.today()
 class booking(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	username = db.Column(db.String(20), unique=True, nullable=False)
-	password = db.Column(db.String(30), unique=True, nullable=False)
+	email= db.Column(db.String(30), unique=True, nullable=False)
 	source=db.Column(db.String(30),  nullable=False)
 	destination=db.Column(db.String(30),  nullable=False)
 	s_date=db.Column(db.Integer)
@@ -141,10 +141,10 @@ class booking(db.Model):
 	adults=db.Column(db.Integer)
 	children=db.Column(db.Integer)
 
-	def __init__(self,id,username , password,source,destination,s_date,e_date,adults,children):
+	def __init__(self,id,username , email,source,destination,s_date,e_date,adults,children):
 		self.id = id
 		self.username = username
-		self.password = password
+		self.email = email
 		self.source = source
 		self.destination = destination
 		self.s_date= s_date
@@ -275,7 +275,7 @@ def login():
 			user=form.email.data
 			session["user"]=user
 
-			user1=form.email.data
+			user1=form.password.data
 			
 			user=register.query.filter_by(email=user).first()
 		
@@ -414,23 +414,31 @@ def delete_blog():
 
 @app.route('/booking',methods=["POST","GET"])
 def booking():
-	if request.method == "POST":
+	user=flask_login.current_user
+	if not session.get("user") is None:
+		if request.method == "POST":
+			details = blogs.query.filter_by(email=current_user.email).first()
+			if details:
+				username=request.form["name"]
 
-		name=request.form["username"]
+				email=request.form["email"]
+				source=request.form["source"]
+				destination=request.form["dest"]
+				s_date=request.form["s_date"]
+				e_date=request.form["e_date"]
+				adults=request.form["adults"]
+				children=request.form["children"]
 
-		password=request.form["Password"]
-		source=request.form["source"]
-		destination=request.form["dest"]
-		s_date=request.form["s_date"]
-		e_date=request.form["e_date"]
-		adults=request.form["adults"]
-		children=request.form["children"]
-		user1 = booking(username=username,password=password,source=source,destination=destination,s_date=s_date,e_date=e_date,adults=adults,children=children,id=id)
-		db.session.add(user)
-		db.session.commit()
-		return render_template('booking.html')
+				user1 = booking(username=username,email=email,source=source,destination=destination,s_date=s_date,e_date=e_date,adults=adults,children=children,id=id)
+				db.session.add(user1)
+				db.session.commit()
 
-	return render_template('booking.html')
+				return redirect(url_for("home"))
+
+		details = blogs.query.filter_by(email=current_user.email).first()
+		return render_template('booking.html',user=details)
+
+	return redirect(url_for("login"))
 
 @app.route('/gallery')
 def gallery():
@@ -443,5 +451,5 @@ def logout():
 
 if __name__ == "__main__":
 	create_app()
-	#db.create_all()
+	db.create_all()
 	app.run(debug= True)
