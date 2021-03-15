@@ -131,7 +131,9 @@ date=date.today()
 
 class booking(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
-	username = db.Column(db.String(20), unique=True, nullable=False)
+
+	username = db.Column(db.String(20), nullable=False)
+
 	email= db.Column(db.String(30), unique=True, nullable=False)
 	source=db.Column(db.String(30),  nullable=False)
 	destination=db.Column(db.String(30),  nullable=False)
@@ -141,8 +143,8 @@ class booking(db.Model):
 	adults=db.Column(db.Integer)
 	children=db.Column(db.Integer)
 
-	def __init__(self,id,username , email,source,destination,s_date,e_date,adults,children):
-		self.id = id
+	def __init__(self,username , email,source,destination,s_date,e_date,adults,children):
+		
 		self.username = username
 		self.email = email
 		self.source = source
@@ -419,9 +421,10 @@ def booking():
 		if request.method == "POST":
 			details = blogs.query.filter_by(email=current_user.email).first()
 			if details:
-				username=request.form["name"]
-
 				email=request.form["email"]
+				name=request.form["name"]
+
+				
 				source=request.form["source"]
 				destination=request.form["dest"]
 				s_date=request.form["s_date"]
@@ -429,13 +432,13 @@ def booking():
 				adults=request.form["adults"]
 				children=request.form["children"]
 
-				user1 = booking(username=username,email=email,source=source,destination=destination,s_date=s_date,e_date=e_date,adults=adults,children=children,id=id)
+				user1 = booking(username = name,email=email,source=source,destination=destination,s_date=s_date,e_date=e_date,adults=adults,children=children)
 				db.session.add(user1)
 				db.session.commit()
 
 				return redirect(url_for("home"))
 
-		details = blogs.query.filter_by(email=current_user.email).first()
+		details = register.query.filter_by(email=current_user.email).first()
 		return render_template('booking.html',user=details)
 
 	return redirect(url_for("login"))

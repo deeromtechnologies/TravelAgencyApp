@@ -152,7 +152,7 @@ body
   <!-- Links -->
   <ul class="navbar-nav " id="nab">
     <li class="nav-item">
-      <a class="nav-link" href="#" >home </a>
+      <a class="nav-link" href="{{ url_for('home') }}" >home </a>
     </li>
    <li class="nav-item">
       <a class="nav-link" class="fa fa-home" href="{{ url_for('about') }}">about us</a>
@@ -163,7 +163,7 @@ body
   <button class="dropbtn">blog</button>
   <div class="dropdown-content">
     <a href="{{ url_for('addblog') }}">add blog</a>
-    <a href="{{ url_for('updated') }}">update blog</a>
+    <a href="{{ url_for('update') }}">update blog</a>
     <a href="{{ url_for('deleteblog') }}">delete blog</a>
 
 </div>
@@ -176,7 +176,7 @@ body
       <a class="nav-link" href="{{ url_for('gallery') }}">Gallery</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="{{ url_for('page') }}">page </a>
+      <a class="nav-link" href="{{ url_for('blogs1') }}">blogs </a>
     </li>
     <li class="nav-item">
       <a class="nav-link" href="{{ url_for('login') }}">login </a>
