@@ -63,16 +63,23 @@ background-image: url("static/new4.jpeg");
 
 }
 #login label{
-  padding-left: 50px;
+  padding-left: 10px;
   padding-top: 10px;
 }
-  
+#login label input{
+    padding-left: 10px;
+}
 h2{  
     text-align: center;  
     color: red;  
     padding: 20px;  
     
-}  
+} 
+#remember_me input{
+    width: 10px;
+    height: 10px;
+    padding-bottom: 20px;
+} 
 label{  
     padding-right: 10px;
     color: white;  
@@ -104,8 +111,8 @@ label{
   
   
 }  
-.log button{
-    padding-top: 10px;
+ button{
+    
 }
 
 span{  
@@ -113,7 +120,8 @@ span{
     font-size: 17px;  
 }  
 #signin{
-    padding-left: 90px;
+    padding-left: 10px;
+    padding-bottom: 20px;
      font-style: italic;
     font-size: 20px;
     color: white;
@@ -127,7 +135,7 @@ span{
 
 }
 #check input{
-  padding-right: 70px;
+  padding-right: 10px;
   font-size: 5px;
 }
 
@@ -208,9 +216,9 @@ span{
      <div class="dropdown">
   <button class="dropbtn">blog</button>
   <div class="dropdown-content">
-    <a href="#">add blog</a>
-    <a href="#">update blog</a>
-    <a href="#">delete blog</a>
+    <a href="{{ url_for('addblog') }}">add blog</a>
+    <a href="{{ url_for('update') }}">update blog</a>
+    <a href="{{ url_for('deleteblog') }}">delete blog</a>
   </div>
 </div>
     </li>
@@ -248,13 +256,14 @@ span{
      
 
         <label for="password">{{form.password.label}}</label> <br>
-        {{form.password()}}<br>
+        {{form.password()}}<br><br>
 
-       <button class="log">submit </button>
+       <button class="log" id="log1">submit </button>
               
         <br><br>    
-        <label for="remember me">{{form.remember_me.label}}</label> <br>
-        {{form.remember_me()}}<br>
+        <label for="remember me">{{form.remember_me.label}}</label> {{form.remember_me()}}<br>
+     <br>
+        
      
         <a href="{{ url_for('signup') }}" id="signin">sign up</a>  
         
