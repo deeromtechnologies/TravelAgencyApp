@@ -21,6 +21,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, logout_user, login_required
 
 import flask_login
+
 from flask_login import login_required, current_user
 
 
@@ -177,9 +178,10 @@ def about():
 
 @app.route('/addblog',methods=["POST", "GET"])
 def addblog():
-	if not session.get("user") is None:
+	if current_user.is_authenticated:
 		form = MyForm_blog()
 		user=flask_login.current_user
+		print(user)
 		
 		if request.method == "POST":
 
@@ -228,7 +230,7 @@ def update():
 
 @app.route('/updated',methods = ['GET','POST'])
 def updated():
-	if not session.get("user") is None:
+	if current_user.is_authenticated:
 		if request.method == 'POST':
 			details = blogs.query.filter_by(email=current_user.email).first()
 			if details:
@@ -390,7 +392,7 @@ def delete(id):
 
 @app.route("/deleteblog")
 def deleteblog():
-	if not session.get("user") is None:
+	if current_user.is_authenticated:
 		
 		
 		result=blogs.query.all()
@@ -422,7 +424,7 @@ def booking():
 			details = blogs.query.filter_by(email=current_user.email).first()
 			if details:
 				email=request.form["email"]
-				name=request.form["name"]
+				username=request.form["name"]
 
 				
 				source=request.form["source"]
@@ -432,7 +434,7 @@ def booking():
 				adults=request.form["adults"]
 				children=request.form["children"]
 
-				user1 = booking(username = name,email=email,source=source,destination=destination,s_date=s_date,e_date=e_date,adults=adults,children=children)
+				user1 = booking(username = username,email=email,source=source,destination=destination,s_date=s_date,e_date=e_date,adults=adults,children=children)
 				db.session.add(user1)
 				db.session.commit()
 
