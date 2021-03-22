@@ -217,8 +217,7 @@ def blog():
 
 @app.route('/update',methods = ['GET','POST'])
 def update():
-	user=flask_login.current_user
-	if not session.get("user") is None:
+	if current_user.is_authenticated:
 		
 		details = blogs.query.filter_by(email=current_user.email).first()
 
@@ -255,7 +254,7 @@ def updated():
 
 		details = blogs.query.filter_by(email=current_user.email).first()
 		return render_template('updateblogs.html', result = details)
-	return render_template('login.html')
+	return redirect(url_for("login"))
 
 
 
